@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id         String   @id @default(cuid())
+  telegramId String   @unique
+  name       String?
+  role       String   @default("STAFF") // ADMIN, STAFF, SOURCE
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  staffConversations  Conversation[] @relation("StaffConversations")
+}
+
+model Source {
+  id             String         @id @default(cuid())
+  name           String
+  telegramChatId String         @unique
+  status         String         @default("ACTIVE") // ACTIVE, INACTIVE
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  conversations  Conversation[]
+}
+
+model Conversation {
+  id        String   @id @default(cuid())
+  staffId   String
+  sourceId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  staff    User      @relation("StaffConversations", fields: [staffId], references: [telegramId], onDelete: Cascade)
+  source   Source    @relation(fields: [sourceId], references: [telegramChatId], onDelete: Cascade)
+  messages Message[]
+}
+
+model Message {
+  id             String   @id @default(cuid())
+  conversationId String
+  senderRole     String   // STAFF, SOURCE
+  text           String
+  createdAt      DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}

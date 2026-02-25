@@ -1,0 +1,38 @@
+{
+  "name": "anonymous-chat-bot",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"next dev\" \"tsx watch src/lib/bot/run.ts\" --names \"web,bot\" --prefix-colors \"cyan,yellow\"",
+    "bot": "tsx watch src/lib/bot/run.ts",
+    "build": "next build",
+    "start": "concurrently \"next start\" \"tsx src/lib/bot/run.ts\" --names \"web,bot\" --prefix-colors \"cyan,yellow\"",
+    "lint": "next lint",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.10.2",
+    "bcryptjs": "^2.4.3",
+    "clsx": "^2.1.0",
+    "grammy": "^1.21.1",
+    "jose": "^5.2.2",
+    "lucide-react": "^0.344.0",
+    "next": "14.1.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "tailwind-merge": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "concurrently": "^9.2.1",
+    "dotenv": "^17.3.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "prisma": "^5.10.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5"
+  }
+}
