@@ -23,6 +23,7 @@ model Source {
   name           String
   telegramChatId String         @unique
   status         String         @default("ACTIVE") // ACTIVE, INACTIVE
+  note           String?
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   conversations  Conversation[]
@@ -41,11 +42,13 @@ model Conversation {
 }
 
 model Message {
-  id             String   @id @default(cuid())
-  conversationId String
-  senderRole     String   // STAFF, SOURCE
-  text           String
-  createdAt      DateTime @default(now())
+  id                String   @id @default(cuid())
+  conversationId    String
+  senderRole        String   // STAFF, SOURCE
+  text              String
+  telegramMessageId String?  // ID of the message sent to the relay target
+  targetChatId      String?  // ID of the chat where the message was relayed to
+  createdAt         DateTime @default(now())
 
   conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 }

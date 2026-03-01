@@ -121,6 +121,7 @@ export default function AdminDashboard() {
                                     <th>Tên nguồn</th>
                                     <th>Chat ID</th>
                                     <th>Trạng thái</th>
+                                    <th>Note</th>
                                     <th>Hành động</th>
                                 </tr>
                             )}
@@ -190,6 +191,7 @@ export default function AdminDashboard() {
                                             <td>{item.name}</td>
                                             <td>{item.telegramChatId}</td>
                                             <td><span className={`badge badge-${(item.status || 'ACTIVE').toLowerCase()}`}>{item.status || 'ACTIVE'}</span></td>
+                                            <td>{item.note || '-'}</td>
                                             <td>
                                                 <button className="btn-primary" style={{ fontSize: '0.8rem', marginRight: '0.5rem', padding: '0.25rem 0.75rem' }} onClick={() => openModal('source', 'edit', item)}>Sửa</button>
                                                 <button className="btn-danger" style={{ fontSize: '0.8rem', padding: '0.25rem 0.75rem' }} onClick={async () => {
@@ -321,6 +323,14 @@ export default function AdminDashboard() {
                                             <option value="ACTIVE">ACTIVE</option>
                                             <option value="INACTIVE">INACTIVE</option>
                                         </select>
+                                    </div>
+                                    <div>
+                                        <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Ghi chú (Note)</label>
+                                        <input
+                                            value={formData.note || ''}
+                                            onChange={(e) => setFormData({ ...formData, note: e.target.value })}
+                                            placeholder="Nhập ghi chú..."
+                                        />
                                     </div>
                                 </>
                             )}

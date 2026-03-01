@@ -18,12 +18,14 @@ export const bot = new Bot<MyContext>(token)
 
 // Middleware to check user role (does NOT auto-register)
 bot.use(async (ctx, next) => {
-    if (!ctx.from) return await next()
+    if (!ctx.chat) return await next()
 
-    const telegramId = ctx.from.id.toString()
+    const chatId = ctx.chat.id.toString()
 
+    // Priority: Specific Chat/Group ID identification
+    // If a group is registered in User/Source, then everyone in that group is considered that role
     const user = await prisma.user.findUnique({
-        where: { telegramId }
+        where: { telegramId: chatId }
     })
 
     if (user) {
@@ -33,13 +35,13 @@ bot.use(async (ctx, next) => {
             name: user.name || 'Unknown'
         }
     } else {
-        // Check if this person is a registered Source
+        // Check if this chat ID is a registered Source
         const source = await prisma.source.findUnique({
-            where: { telegramChatId: telegramId }
+            where: { telegramChatId: chatId }
         })
         if (source) {
             ctx.user = {
-                telegramId,
+                telegramId: chatId,
                 role: 'SOURCE',
                 name: source.name
             }

@@ -12,7 +12,8 @@ export async function POST(req: Request) {
         data: {
             name: body.name,
             telegramChatId: body.telegramChatId,
-            status: body.status || 'ACTIVE'
+            status: body.status || 'ACTIVE',
+            note: body.note
         }
     })
     return NextResponse.json(source)
@@ -25,7 +26,8 @@ export async function PUT(req: Request) {
         data: {
             name: body.name,
             telegramChatId: body.telegramChatId,
-            status: body.status
+            status: body.status,
+            note: body.note
         }
     })
     return NextResponse.json(source)
