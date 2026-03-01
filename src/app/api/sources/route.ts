@@ -14,7 +14,7 @@ export async function POST(req: Request) {
             telegramChatId: body.telegramChatId,
             status: body.status || 'ACTIVE',
             note: body.note
-        }
+        } as any
     })
     return NextResponse.json(source)
 }
@@ -28,7 +28,7 @@ export async function PUT(req: Request) {
             telegramChatId: body.telegramChatId,
             status: body.status,
             note: body.note
-        }
+        } as any
     })
     return NextResponse.json(source)
 }
